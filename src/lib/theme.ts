@@ -1,6 +1,6 @@
 'use client'
 
-import { border, extendTheme } from "@chakra-ui/react";
+import {  extendTheme } from "@chakra-ui/react";
 import { mode } from '@chakra-ui/theme-tools'
 
 const activeLabelStyles = {
@@ -11,7 +11,7 @@ const activeLabelStyles = {
 const styles = {
     global: () => ({
         body: {
-            bg: '#000000',
+            bg: '#dbdbdb',
             "html, body": {
                 height: "100%",
                 overflow: "hidden",
@@ -73,8 +73,8 @@ const components = {
     Button: {
         variants: {
             buttonPrimary: () => ({
-                bg: '#ffdaa9',
-                color: '#000000',
+                bg: '#2d94f2',
+                color: '#fffff',
                 fontSize: 'md',
                 borderRadius: '50px',
                 position: 'relative',

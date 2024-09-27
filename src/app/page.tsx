@@ -1,3 +1,10 @@
+import Layout from "@/components/layout";
+import Auth from "./auth/page";
+
 export default function Home() {
-  return <div>Home</div>;
+  return (
+    <Layout>
+      <Auth />
+    </Layout>
+  );
 }
