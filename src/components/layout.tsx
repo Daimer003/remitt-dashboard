@@ -6,14 +6,14 @@ interface Prop {
 
 const Layout = ({ children }: Prop) => {
   return (
-    <Flex width="100%" className="gradient">
+    <Flex width="100%" className="gradient"> 
       <Box
         display="flex"
         width="100%"
         height={{base: 'auto', md: '100vh'}}
        // background="gray"
         position="relative"
-        zIndex={10}
+        zIndex={0}
       >
         {children}
       </Box>
