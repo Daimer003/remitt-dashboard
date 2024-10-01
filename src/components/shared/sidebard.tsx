@@ -71,7 +71,7 @@ const Sidebard = () => {
         display="flex"
         justifyContent="center"
         w="100%"
-        maxW="80px"
+        maxW="100px"
         spacing={4}
         bg="var(--bg-gradient-sidebard)"
         padding="10px"
@@ -91,13 +91,13 @@ const Sidebard = () => {
           />
         </Box>
 
-        <Box display="flex" flexDir="column" w="100%" gap="40px" marginTop={2}>
+        <Box display="flex" flexDir="column" w="100%" gap="30px" marginTop={2}>
           {links.map((link, key) => (
             <Box
               key={key}
               display="flex"
               justifyContent="center"
-              bg={key == 0 ? "#fff" : "transparent"}
+              bg={key == 0 ? "#fff" : "#ffffff18"}
               w="100%"
               h="auto"
               padding="10px"
