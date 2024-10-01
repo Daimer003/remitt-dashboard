@@ -3,6 +3,10 @@ import DashboardMenu from "@/components/shared/dashboard-menu";
 import Sidebard from "@/components/shared/sidebard";
 import { Text, Box } from "@chakra-ui/react";
 
+import img1 from "@/app/assets/imagen-1.webp";
+import img2 from "@/app/assets/imagen-2.webp";
+import img3 from "@/app/assets/imagen-3.webp";
+
 const Dashboard = () => {
   return (
     <Box display="flex" w="100%" height="100vh">
@@ -14,7 +18,13 @@ const Dashboard = () => {
         <DashboardMenu />
 
         <Box w="100%" marginTop={8}>
-          <Box display="flex" alignItems='center' flexDir="row" w="100%" gap='20px'>
+          <Box
+            display="flex"
+            alignItems="center"
+            flexDir="row"
+            w="100%"
+            gap="20px"
+          >
             <Box
               display="flex"
               flexDir="column"
@@ -46,9 +56,21 @@ const Dashboard = () => {
               </Box>
             </Box>
 
-            <Boxdashboard description="Global Sales" />
-            <Boxdashboard description="Global Sales" />
-            <Boxdashboard description="Global Sales" />
+            <Boxdashboard
+              img={img1}
+              description="Global Sales"
+              background="var(--bg-gradient-box-2)"
+            />
+            <Boxdashboard
+              img={img2}
+              description="Global Sales"
+              background="var(--bg-gradient-box-3)"
+            />
+            <Boxdashboard
+              img={img3}
+              description="Global Sales"
+              background="var(--bg-gradient-box-4)"
+            />
           </Box>
         </Box>
       </Box>

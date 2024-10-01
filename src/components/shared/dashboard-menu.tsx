@@ -2,9 +2,6 @@ import { Box, Button, Switch, Text } from "@chakra-ui/react";
 
 const DashboardMenu = () => {
 
-
-  
-
   return (
     <Box
       display="flex"
@@ -18,6 +15,7 @@ const DashboardMenu = () => {
       position="relative"
     >
       <Box className="line-dashboard-menu" />
+
       <Box
         display="flex"
         w='100%'
