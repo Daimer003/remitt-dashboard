@@ -68,3 +68,7 @@ a {
   position: absolute;
   z-index: 0;
 }
+
+.line-separator :before{
+
+}

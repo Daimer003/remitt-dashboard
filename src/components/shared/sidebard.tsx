@@ -1,7 +1,59 @@
-import { Text, Box, VStack } from "@chakra-ui/react";
+import { Box, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import logo from "../../app/assets/logo-dashboard.webp";
-import { IconHome } from "@/utils/icons";
+import {
+  IconHome,
+  IconSlider,
+  IconUser,
+  IconCurrency,
+  IconPlay,
+  IconDataBase,
+  IconExit,
+  IconGraph
+} from "@/utils/icons";
+
+const links = [
+  {
+    id: 1,
+    path: "Home",
+    icon: IconHome,
+  },
+  {
+    id: 2,
+    path: "Staking",
+    icon: IconSlider,
+  },
+  {
+    id: 3,
+    path: "Referrals",
+    icon: IconUser,
+  },
+  {
+    id: 4,
+    path: "Swaps",
+    icon: IconCurrency,
+  },
+  {
+    id: 5,
+    path: "Tutorials",
+    icon: IconPlay,
+  },
+  {
+    id: 6,
+    path: "Tutorials",
+    icon: IconGraph,
+  },
+  {
+    id: 7,
+    path: "Administrations",
+    icon: IconDataBase,
+  },
+  {
+    id: 8,
+    path: "Exit",
+    icon: IconExit,
+  },
+];
 
 const Sidebard = () => {
   return (
@@ -40,67 +92,20 @@ const Sidebard = () => {
         </Box>
 
         <Box display="flex" flexDir="column" w="100%" gap="40px" marginTop={2}>
-          <Box
-            display="flex"
-            justifyContent="center"
-            w="100%"
-            h="auto"
-            bg="white"
-            padding="10px"
-            borderRadius="8px"
-          >
-            <IconHome size="34" color="black"/>
-          </Box>
-          <Box
-            display="flex"
-            justifyContent="center"
-            w="100%"
-            h="auto"
-            padding="10px"
-            borderRadius="8px"
-          >
-            <IconHome size="34" color="white" />
-          </Box>
-          <Box
-            display="flex"
-            justifyContent="center"
-            w="100%"
-            h="auto"
-            padding="10px"
-            borderRadius="8px"
-          >
-            <IconHome size="34" color="white" />
-          </Box>
-          <Box
-            display="flex"
-            justifyContent="center"
-            w="100%"
-            h="auto"
-            padding="10px"
-            borderRadius="8px"
-          >
-            <IconHome size="34" color="white" />
-          </Box>
-          <Box
-            display="flex"
-            justifyContent="center"
-            w="100%"
-            h="auto"
-            padding="10px"
-            borderRadius="8px"
-          >
-            <IconHome size="34" color="white" />
-          </Box>
-          <Box
-            display="flex"
-            justifyContent="center"
-            w="100%"
-            h="auto"
-            padding="10px"
-            borderRadius="8px"
-          >
-            <IconHome size="34" color="white" />
-          </Box>
+          {links.map((link, key) => (
+            <Box
+              key={key}
+              display="flex"
+              justifyContent="center"
+              bg={key == 0 ? "#fff" : "transparent"}
+              w="100%"
+              h="auto"
+              padding="10px"
+              borderRadius="8px"
+            >
+              {<link.icon size="30" color={key == 0 ? "#101010" : "#ffffff"} />}
+            </Box>
+          ))}
         </Box>
       </VStack>
     </Box>
