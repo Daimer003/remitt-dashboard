@@ -1,6 +1,7 @@
 :root {
   --background: #dbdbdb;
   --bg-swap: #EDEDED;
+  --bg-table: #EDEDED;
 
   --border-color-1: #01DBE7;
   --bg-gradient-sidebard: linear-gradient(177deg, rgba(25, 95, 180, 1) 0%, rgba(29, 235, 243, 1) 95%);

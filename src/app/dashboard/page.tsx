@@ -7,6 +7,8 @@ import img1 from "@/app/assets/imagen-1.webp";
 import img2 from "@/app/assets/imagen-2.webp";
 import img3 from "@/app/assets/imagen-3.webp";
 import Swap from "@/components/swap";
+import TableData from "@/components/table";
+import CardProduct from "@/components/cards/card-product";
 
 const Dashboard = () => {
   return (
@@ -74,7 +76,30 @@ const Dashboard = () => {
             />
           </Box>
 
-          <Swap />
+          <Box display='flex' w='100%' gap='20px'>
+            <Swap />
+            <CardProduct />
+          </Box>
+
+          <Box display="flex" position="relative">
+            <TableData
+              headers={[
+                "MITT",
+                "Wallet",
+                "Amount",
+                "Currency",
+                "Fecha",
+                "Enlace",
+              ]}
+              values={[
+                "id_status_purchase",
+                "created_at",
+                "amount",
+                "activate_at",
+              ]}
+              dataBody={["id", "prueba"]}
+            />
+          </Box>
         </Box>
       </Box>
     </Box>
