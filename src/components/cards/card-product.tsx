@@ -10,7 +10,6 @@ import {
 import imgCover from '@/app/assets/cover.webp'
 import Image from "next/image";
 
-
 const CardProduct = () => {
   return (
     <Card maxW="sm" bg="white" borderRadius="20px">

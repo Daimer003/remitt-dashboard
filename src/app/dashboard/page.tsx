@@ -9,6 +9,7 @@ import img3 from "@/app/assets/imagen-3.webp";
 import Swap from "@/components/swap";
 import TableData from "@/components/table";
 import CardProduct from "@/components/cards/card-product";
+import CardReferreals from "@/components/cards/card-referreals";
 
 const Dashboard = () => {
   return (
@@ -79,6 +80,7 @@ const Dashboard = () => {
           <Box display='flex' w='100%' gap='20px'>
             <Swap />
             <CardProduct />
+            <CardReferreals />
           </Box>
 
           <Box display="flex" position="relative">
