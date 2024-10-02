@@ -6,6 +6,7 @@ import { Text, Box } from "@chakra-ui/react";
 import img1 from "@/app/assets/imagen-1.webp";
 import img2 from "@/app/assets/imagen-2.webp";
 import img3 from "@/app/assets/imagen-3.webp";
+import Swap from "@/components/swap";
 
 const Dashboard = () => {
   return (
@@ -17,7 +18,7 @@ const Dashboard = () => {
       <Box w="100%" p={4} overflowY="auto" marginLeft="10rem">
         <DashboardMenu />
 
-        <Box w="100%" marginTop={8}>
+        <Box display="flex" flexDir="column" gap="20px" w="100%" marginTop={8}>
           <Box
             display="flex"
             alignItems="center"
@@ -72,6 +73,8 @@ const Dashboard = () => {
               background="var(--bg-gradient-box-4)"
             />
           </Box>
+
+          <Swap />
         </Box>
       </Box>
     </Box>

@@ -77,7 +77,7 @@ const Sidebard = () => {
         padding="10px"
         borderRadius="16px"
       >
-        <Box w="60px" h="auto">
+        <Box w="60px" h="auto" marginTop='20px'>
           <Image
             src={logo}
             alt="logo dashboard"
