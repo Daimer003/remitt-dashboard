@@ -1,6 +1,9 @@
+'use client'
 import { Box, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import logo from "../../app/assets/logo-dashboard.webp";
+import { useRouter } from 'next/navigation'
+
 import {
   IconHome,
   IconSlider,
@@ -9,7 +12,7 @@ import {
   IconPlay,
   IconDataBase,
   IconExit,
-  IconGraph
+  IconGraph,
 } from "@/utils/icons";
 
 const links = [
@@ -56,6 +59,7 @@ const links = [
 ];
 
 const Sidebard = () => {
+  const router = useRouter()
   return (
     <Box
       display="flex"
@@ -77,7 +81,7 @@ const Sidebard = () => {
         padding="10px"
         borderRadius="16px"
       >
-        <Box w="60px" h="auto" marginTop='20px'>
+        <Box w="60px" h="auto" marginTop="0px">
           <Image
             src={logo}
             alt="logo dashboard"
@@ -103,7 +107,19 @@ const Sidebard = () => {
               padding="10px"
               borderRadius="8px"
             >
-              {<link.icon size="30" color={key == 0 ? "#101010" : "#ffffff"} />}
+              {link.path != "Exit" ? (
+                <link.icon size="30" color={key == 0 ? "#101010" : "#ffffff"} />
+              ) : (
+                <Box
+                border='1px solid #fff'
+                w='100%'
+                padding='10px'
+                borderRadius='8px'
+                onClick={() => router.push('/')}
+                >
+                  <link.icon size="30" color={key == 0 ? "#101010" : "#ffffff"} />
+                </Box>
+              )}
             </Box>
           ))}
         </Box>

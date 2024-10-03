@@ -13,14 +13,16 @@
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",
     "@reduxjs/toolkit": "^2.2.7",
-    "@tanstack/react-query": "^5.56.2",
+    "@reown/appkit": "^1.0.6",
+    "@reown/appkit-adapter-wagmi": "^1.0.6",
+    "@tanstack/react-query": "^5.59.0",
     "framer-motion": "^11.8.0",
     "next": "14.2.13",
     "react": "^18",
     "react-dom": "^18",
     "react-redux": "^9.1.2",
-    "viem": "^2.21.15",
-    "wagmi": "^2.12.14"
+    "viem": "^2.21.17",
+    "wagmi": "^2.12.16"
   },
   "devDependencies": {
     "@types/node": "^20",
