@@ -9,8 +9,15 @@ import TableData from "@/components/table";
 import CardProduct from "@/components/cards/card-product";
 import CardReferreals from "@/components/cards/card-referreals";
 import SkeletonLayout from "@/components/skeleton";
+import { useAccount, useDisconnect } from "wagmi";
+
+
 
 const Home = () => {
+  const { isConnected } = useAccount();
+  const { disconnect } = useDisconnect();
+
+  console.log(isConnected)
   return (
     <Box display="flex" flexDir="column" gap="20px" w="100%" marginTop={8}>
       <Box display="flex" alignItems="center" flexDir="row" w="100%" gap="20px">

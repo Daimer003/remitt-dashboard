@@ -2,7 +2,6 @@ import {
   Card,
   CardBody,
   Stack,
-  Heading,
   Text,
   CardFooter,
   Button,
@@ -14,7 +13,7 @@ import Image from "next/image";
 
 const CardReferreals = () => {
   return (
-    <Card w="100%" maxW="400px"         bg="var(--bg-swap)" borderRadius="20px">
+    <Card w="100%" maxW="400px" bg="var(--bg-swap)" borderRadius="20px">
       <CardBody
         display="flex"
         flexDir="column"
@@ -57,16 +56,27 @@ const CardReferreals = () => {
           />
         </Box>
 
-        <Stack mt="6" spacing="3" bg='white' p='10px' borderRadius='8px' w='100%'>
-          <Text as="span" color='black'>0xBF7eAdDOx65cAS34S34</Text>
+        <Stack
+          mt="6"
+          spacing="3"
+          bg="white"
+          p="10px"
+          borderRadius="8px"
+          w="100%"
+        >
+          <Text as="span" color="black">
+            0xBF7eAdDOx65cAS34S34
+          </Text>
         </Stack>
 
-<Box display='flex' flexDir='column' w='100%' gap='10px' mt='20px'>
-<Text as="span" color='black'>Code:User 03</Text>
-<Text as="span" color='black'>Sponsor: User</Text>
-
-</Box>
-
+        <Box display="flex" flexDir="column" w="100%" gap="10px" mt="20px">
+          <Text as="span" color="black">
+            Code:User 03
+          </Text>
+          <Text as="span" color="black">
+            Sponsor: User
+          </Text>
+        </Box>
       </CardBody>
 
       <CardFooter p="10px">

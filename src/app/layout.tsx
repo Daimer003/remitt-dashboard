@@ -2,9 +2,10 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Providers from "@/providers";
-import ContextProvider from "@/context/context-wagmi";
-
-import { headers } from "next/headers"; // added
+import { headers } from "next/headers";
+import { cookieToInitialState } from "wagmi"; 
+import { config } from "@/config/config"; 
+import Web3ModalProvider from "@/context/context-wagmi";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -18,25 +19,26 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Remitt",
+  title: "#",
   description: "#",
 };
 
-const cookies = headers().get('cookie')
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const initialState = cookieToInitialState(config, headers().get("cookie"))
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-      <ContextProvider cookies={cookies}>
+      <Web3ModalProvider initialState={initialState}>
         <Providers>          
           {children}
         </Providers>
-        </ContextProvider>
+        </Web3ModalProvider >
       </body>
     </html>
   );

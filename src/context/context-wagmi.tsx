@@ -1,52 +1,39 @@
-'use client'
-import { wagmiAdapter, projectId } from '@/config/config'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { AppKit, createAppKit } from '@reown/appkit/react' 
-import { mainnet, arbitrum, avalanche, base, optimism, polygon } from '@reown/appkit/networks'
-import React, { type ReactNode } from 'react'
-import { cookieToInitialState, WagmiProvider, type Config } from 'wagmi'
+"use client";
 
+import React, { ReactNode } from "react";
+import { config, projectId, metadata } from "@/config/config";
+import { createWeb3Modal } from "@web3modal/wagmi/react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { State, WagmiProvider } from "wagmi";
 
-// Set up queryClient
-const queryClient = new QueryClient()
+// Setup queryClient
+const queryClient = new QueryClient();
 
-if (!projectId) {
-  throw new Error('Project ID is not defined')
-}
+if (!projectId) throw new Error("Project ID is not defined");
 
-// Set up metadata
-const metadata = {
-  name: "appkit-example-scroll",
-  description: "AppKit Example - Scroll",
-  url: "https://scrollapp.com", // origin must match your domain & subdomain
-  icons: ["https://avatars.githubusercontent.com/u/179229932"]
-}
-
-// Create the AppKit instance
-const modal = createAppKit({
-  adapters: [wagmiAdapter],
+// Create modal
+createWeb3Modal({
+  metadata,
+  wagmiConfig: config,
   projectId,
-  networks: [mainnet, arbitrum, avalanche, base, optimism, polygon],
-  defaultNetwork: mainnet,
-  metadata: metadata,
-  features: {
-    analytics: true, // Optional - defaults to your Cloud configuration
+  enableAnalytics: true, // Optional - defaults to your Cloud configuration
+  enableOnramp: true, // Optional - false as default
+  themeMode: "light", // By default - set to user system settings
+  themeVariables: {
+    "--w3m-font-family": "Verdana", // Base font family
+    // "--w3m-color-mix": "#0137b6", // The color that blends in with the default colors
+    // "--w3m-color-mix-strength": 60, // The percentage on how much "--w3m-color-mix" should blend in
+    // "--w3m-accent": "#feea35", // Color used for buttons, icons, labels, etc.
+    // "--w3m-font-size-master": "10px",
+    "--w3m-border-radius-master": "2px",
+    "--w3m-z-index": 1
   }
-})
+});
 
-
-
-function ContextProvider({ children, cookies }: { children: ReactNode; cookies: string | null }) {
-  const initialState = cookieToInitialState(wagmiAdapter.wagmiConfig as Config, cookies)
-
+export default function Web3ModalProvider({ children, initialState }: { children: ReactNode; initialState?: State }) {
   return (
-    <WagmiProvider  config={wagmiAdapter.wagmiConfig as Config} initialState={initialState}>
-      <QueryClientProvider client={queryClient}>
-        {/* Proveer el contexto de AppKit aquí si es necesario */}
-        {children}
-      </QueryClientProvider>
+    <WagmiProvider config={config} initialState={initialState}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiProvider>
-  )
+  );
 }
-
-export default ContextProvider

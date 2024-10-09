@@ -15,8 +15,8 @@ const SearchBar = () => {
       padding=".8rem"
       gap="20px"
     >
-      <Box display="flex" alignItems='center' gap='10px' w="100%">
-        <Box w='100px'>
+      <Box display="flex" alignItems="center" gap="10px" w="100%">
+        <Box w="100px">
           <Text as="span" color="black">
             Selec Level
           </Text>
@@ -32,8 +32,8 @@ const SearchBar = () => {
           <option value="option3">Option 3</option>
         </Select>
       </Box>
-      <Box display="flex" alignItems='center' gap='10px' w="100%">
-        <Box w='60px'>
+      <Box display="flex" alignItems="center" gap="10px" w="100%">
+        <Box w="60px">
           <Text as="span" color="black">
             Search
           </Text>

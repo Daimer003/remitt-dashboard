@@ -7,7 +7,7 @@
  * @param currentPage: pagina inicial
  * @returns visibleData: la nueva data
  */
-export const paginator = (data, itemsPerPage, currentPage) => {
+export const paginator = (data: any, itemsPerPage: any, currentPage: any) => {
 
     //* Asegúrese de que los datos sean una matriz y estén definidos
     const dataPager = Array.isArray(data) ? data : [];
