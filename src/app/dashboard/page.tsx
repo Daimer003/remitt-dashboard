@@ -8,6 +8,7 @@ import Referreals from "./referreals";
 import PageSwap from "./swap";
 import PageStaking from "./staking";
 import PageTutorial from "./tutorial";
+import PaneAdmin from "./pane-admin";
 
 const Dashboard = () => {
   const [page, setPage] = useState<string>("Home");
@@ -16,6 +17,7 @@ const Dashboard = () => {
     Referrals: <Referreals />,
     Swap: <PageSwap />,
     Staking: <PageStaking />,
+    Admin: <PaneAdmin />,
     Tutorial: <PageTutorial />
   });
 
