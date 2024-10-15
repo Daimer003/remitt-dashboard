@@ -49,7 +49,7 @@ const links = [
   },
   {
     id: 6,
-    path: "Tutorials",
+    path: "Admin",
     icon: IconGraph,
   },
   {

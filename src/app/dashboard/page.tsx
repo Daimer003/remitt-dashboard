@@ -10,7 +10,7 @@ import PageStaking from "./staking";
 import PageTutorial from "./tutorial";
 
 const Dashboard = () => {
-  const [page, setPage] = useState<string>("home");
+  const [page, setPage] = useState<string>("Home");
   const [routing, _] = useState<any>({
     Home: <Home />,
     Referrals: <Referreals />,
