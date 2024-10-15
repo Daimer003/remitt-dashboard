@@ -4,23 +4,18 @@ import { Text, Box } from "@chakra-ui/react";
 import img1 from "@/app/assets/imagen-1.webp";
 import img2 from "@/app/assets/imagen-2.webp";
 import img3 from "@/app/assets/imagen-3.webp";
-import Swap from "@/components/swap";
-import TableData from "@/components/table";
-import CardProduct from "@/components/cards/card-product";
-import CardReferreals from "@/components/cards/card-referreals";
 import SkeletonLayout from "@/components/skeleton";
-import { useAccount, useDisconnect } from "wagmi";
-
-
+import { useAccount} from "wagmi";
+import CardBond from "@/components/cards/card-bond";
+import CodeQr from "@/components/codeQr";
+//import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const Home = () => {
   const { isConnected } = useAccount();
-  const { disconnect } = useDisconnect();
 
-  console.log(isConnected)
   return (
-    <Box display="flex" flexDir="column" gap="20px" w="100%" marginTop={8}>
-      <Box display="flex" alignItems="center" flexDir="row" w="100%" gap="20px">
+    <Box display="flex" flexDir="column" gap="20px" w="100%" marginTop={14}>
+      <Box display="flex" alignItems="end" flexDir="row" w="100%" gap="20px">
         <SkeletonLayout borderRadius="16px">
           <Box
             display="flex"
@@ -33,7 +28,14 @@ const Home = () => {
             gap={2}
             borderRadius="16px"
           >
-            <Text as="h4" color="black" minH="30px">
+            <Text
+              as="h4"
+              color="black"
+              fontSize="xl"
+              fontWeight="600"
+              minH="30px"
+              margin="20px 0 0 0"
+            >
               Stake Profit
             </Text>
             <Box
@@ -42,10 +44,11 @@ const Home = () => {
               p={2}
               borderRadius="8px"
             >
-              <Text as="h4" fontSize="4xl" fontWeight="600" textAlign="center">
+              <Text as="h4" fontSize="2xl" fontWeight="600" textAlign="center">
                 $57.24
               </Text>
             </Box>
+
           </Box>
         </SkeletonLayout>
 
@@ -66,18 +69,22 @@ const Home = () => {
         />
       </Box>
 
-      <Box display="flex" w="100%" gap="20px">
-        <Swap />
-        <CardProduct />
-        <CardReferreals />
+      <Box display="flex" w="100%" gap={10} marginTop={4}>
+        <CardBond typeBond="BONO INDIRECTO" title="Bono" />
+        <CardBond
+          typeBond="BONO INFINITO"
+          title="Rango 1"
+          nivel={["R1", "R2", "R3", "R4"]}
+        />
+        <CardBond
+          typeBond="POOL"
+          title="Pool 1"
+          nivel={["P1", "P2", "P3"]}
+        />
       </Box>
 
       <Box display="flex" position="relative">
-        <TableData
-          headers={["MITT", "Wallet", "Amount", "Currency", "Fecha", "Enlace"]}
-          values={["id_status_purchase", "created_at", "amount", "activate_at"]}
-          dataBody={["id", "prueba"]}
-        />
+        <CodeQr />
       </Box>
     </Box>
   );

@@ -5,13 +5,20 @@ import { Box } from "@chakra-ui/react";
 import { useState } from "react";
 import Home from "./home";
 import Referreals from "./referreals";
+import PageSwap from "./swap";
+import PageStaking from "./staking";
+import PageTutorial from "./tutorial";
 
 const Dashboard = () => {
   const [page, setPage] = useState<string>("home");
   const [routing, _] = useState<any>({
     Home: <Home />,
     Referrals: <Referreals />,
+    Swap: <PageSwap />,
+    Staking: <PageStaking />,
+    Tutorial: <PageTutorial />
   });
+
 
   return (
     <Box display="flex" w="100%" height="100vh">

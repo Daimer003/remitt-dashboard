@@ -93,6 +93,18 @@ const components = {
                 zIndex: 10,
                 _hover: {},
             }),
+
+            button: () => ({
+                bg: '#01DBE7',
+                color: '#ffffff',
+                fontSize: '14px',
+                borderRadius: '50px',
+                position: 'relative',
+                transition: '.3s ease-in-out',
+               // border: '1px solid gray',
+                zIndex: 10,
+                _hover: {},
+            }),
         },
 
     },

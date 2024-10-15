@@ -40,7 +40,7 @@ interface PropsRow {
  * @returns td dinámico
  */
 const TableRow = ({ data, properties, replacementFunction, lineThroughCondition, onClick }: PropsRow) => (
-    <Tr borderBottom='.5px solid var(--color-borde)' h='50px'>
+    <Tr  h='50px'   bg='white' borderRadius='20px' border="1px solid #dfdfdf" marginTop={3} >
         {
             properties.map((property:any, index: number) => {
                 const replacementValue = replacementFunction ? replacementFunction(data, property) : undefined;
@@ -55,12 +55,14 @@ const TableRow = ({ data, properties, replacementFunction, lineThroughCondition,
                         textDecoration={isLineThrough ? 'line-through' : 'none'}
                         textDecorationThickness='3px'
                         textDecorationColor='red' // Aplicar line-through si la condición se cumple
+                        color='black'
+                      
                     >
                         <Skeleton
                             isLoaded={true}
                             startColor='#1d1d1d'
                             endColor='#2e2e2e'
-                            color='#e1e1e1'
+                            color='#0d0d0d'
                             onClick={onClick}
                             cursor='pointer'
                         >
@@ -102,6 +104,7 @@ const TableData = ({ headers, dataBody, values, replacementFunction, lineThrough
             alignItems='center'
             bg='var(--bg-table)'
             borderRadius='20px'
+            padding={3}
         >
             {/* TABLE */}
 
@@ -112,7 +115,7 @@ const TableData = ({ headers, dataBody, values, replacementFunction, lineThrough
                 gap='20px'
                 marginBottom='50px'
             >
-                <Table variant='' size='sm'>
+                <Table variant='' size='sm'  sx={{ borderSpacing: "0 10px" }}>
                     <Thead h='48px'>
                         <Tr h='50px' >
                             {
@@ -130,7 +133,7 @@ const TableData = ({ headers, dataBody, values, replacementFunction, lineThrough
                             }
                         </Tr>
                     </Thead>
-                    <Tbody>
+                    <Tbody  >
                         {
                             res.visibleData.map((data: any, index: number) => (
                                 <TableRow

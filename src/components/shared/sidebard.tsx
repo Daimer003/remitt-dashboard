@@ -1,8 +1,9 @@
 "use client";
-import { Box, List, VStack, list } from "@chakra-ui/react";
+import { Box, List, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import logo from "../../app/assets/logo-dashboard.webp";
 import { useRouter } from "next/navigation";
+import { useAccount, useDisconnect } from "wagmi";
 
 import {
   IconHome,
@@ -16,9 +17,8 @@ import {
 } from "@/utils/icons";
 import { useState } from "react";
 
-
 interface RuteProps {
-  rute: (ruta: string) => void
+  rute: (ruta: string) => void;
 }
 
 const links = [
@@ -39,12 +39,12 @@ const links = [
   },
   {
     id: 4,
-    path: "Swaps",
+    path: "Swap",
     icon: IconCurrency,
   },
   {
     id: 5,
-    path: "Tutorials",
+    path: "Tutorial",
     icon: IconPlay,
   },
   {
@@ -57,30 +57,27 @@ const links = [
     path: "Administrations",
     icon: IconDataBase,
   },
-  {
-    id: 8,
-    path: "Exit",
-    icon: IconExit,
-  },
 ];
 
-const Sidebard = ({rute}: RuteProps) => {
+const Sidebard = ({ rute }: RuteProps) => {
   const router = useRouter();
-  const [active, setActive] = useState<string>('Home')
+  const [active, setActive] = useState<string>("Home");
+  const { disconnect } = useDisconnect();
 
+  const disconnectWallet = () => {
+    router.push("/");
+    disconnect();
+  };
 
   const activePath = (path: string) => {
-    setActive(path)
-
-
-    rute(path)
-  }
-
+    setActive(path);
+    rute(path);
+  };
 
   return (
     <Box
       display="flex"
-      as='nav'
+      as="nav"
       justifyContent="center"
       w="10rem"
       h="auto"
@@ -117,41 +114,37 @@ const Sidebard = ({rute}: RuteProps) => {
           {links.map((link, key) => (
             <Box
               key={key}
-              as='li'
+              as="li"
               display="flex"
               justifyContent="center"
-              bg={link.path  == active ? "#fff" : "#ffffff18"}
+              bg={link.path == active ? "#fff" : "#ffffff18"}
               w="100%"
               h="auto"
               padding="10px"
               borderRadius="8px"
-              cursor='pointer'
+              cursor="pointer"
               onClick={() => activePath(link.path)}
             >
-      
-                {link.path != "Exit" ? (
-                  <link.icon
-                    size="30"
-                    color={link.path  == active ? "#101010" : "#ffffff"}
-                  />
-                ) : (
-                  <Box
-                    border="1px solid #fff"
-                    w="100%"
-                    padding="10px"
-                    borderRadius="8px"
-                    onClick={() => router.push("/")}
-                  >
-                    <link.icon
-                      size="30"
-                      color={key == 0 ? "#101010" : "#ffffff"}
-                    />
-                  </Box>
-                )}
-           
+              <link.icon
+                size="30"
+                color={link.path == active ? "#101010" : "#ffffff"}
+              />
             </Box>
           ))}
-        </List >
+
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            border="1px solid #fff"
+            w="100%"
+            padding="10px"
+            borderRadius="8px"
+            onClick={() => disconnectWallet()}
+          >
+            <IconExit size="30" color="#ffffff" />
+          </Box>
+        </List>
       </VStack>
     </Box>
   );

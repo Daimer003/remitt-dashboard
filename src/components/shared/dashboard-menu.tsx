@@ -29,7 +29,10 @@ const DashboardMenu = () => {
           <Button w="100%" maxW="200px" variant="buttonSecondary">
             Dashboard
           </Button>
-          <Switch />
+
+          <Box display='flex' position='relative' zIndex={99} bg='gray.300'>
+            <Switch />
+          </Box>
 
           <Box
             display="flex"

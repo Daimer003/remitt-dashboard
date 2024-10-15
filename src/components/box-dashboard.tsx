@@ -33,7 +33,7 @@ const Boxdashboard = ({ description, background, img }: Props) => {
         <Text as="h3" color="white">
           Global Sales
         </Text>
-        <Text as="span" fontSize="4xl" fontWeight="600" color="white">
+        <Text as="span" fontSize="xl" fontWeight="600" color="white">
           $57.24
         </Text>
       </Box>
