@@ -59,6 +59,8 @@ const links = [
   },
 ];
 
+
+
 const Sidebard = ({ rute }: RuteProps) => {
   const router = useRouter();
   const [active, setActive] = useState<string>("Home");
