@@ -5,7 +5,7 @@ import imgNivel from "@/app/assets/mask-nivel.webp";
 interface Props {
   nivel?: any;
   title?: string;
-  typeBond: string
+  typeBond: string;
 }
 
 const CardBond = ({ nivel, title, typeBond }: Props) => {
@@ -14,6 +14,7 @@ const CardBond = ({ nivel, title, typeBond }: Props) => {
       <Box display={nivel ? "flex" : "none"} flexDir="column" gap={5}>
         {nivel?.map((n: any, index: number) => (
           <Box
+            key={index}
             display="flex"
             alignItems="center"
             justifyContent="center"
@@ -51,7 +52,7 @@ const CardBond = ({ nivel, title, typeBond }: Props) => {
           padding={2}
         >
           <Button color="white" w="100%" variant="buttonPrimary">
-           {typeBond}
+            {typeBond}
           </Button>
         </Box>
 

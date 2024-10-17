@@ -79,7 +79,7 @@ const components = {
                 borderRadius: '50px',
                 position: 'relative',
                 transition: '.3s ease-in-out',
-                zIndex: 10,
+                zIndex: 0,
                 _hover: {},
             }),
             buttonSecondary: () => ({
@@ -90,7 +90,7 @@ const components = {
                 position: 'relative',
                 transition: '.3s ease-in-out',
                // border: '1px solid gray',
-                zIndex: 10,
+                zIndex: 0,
                 _hover: {},
             }),
 
@@ -102,7 +102,7 @@ const components = {
                 position: 'relative',
                 transition: '.3s ease-in-out',
                // border: '1px solid gray',
-                zIndex: 10,
+                zIndex: 0,
                 _hover: {},
             }),
         },

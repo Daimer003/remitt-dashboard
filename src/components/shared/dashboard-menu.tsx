@@ -30,7 +30,7 @@ const DashboardMenu = () => {
             Dashboard
           </Button>
 
-          <Box display='flex' position='relative' zIndex={99} bg='gray.300'>
+          <Box display='flex' position='relative' zIndex={0} bg='gray.300'>
             <Switch />
           </Box>
 

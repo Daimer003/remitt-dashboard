@@ -18,9 +18,8 @@ const Dashboard = () => {
     Swap: <PageSwap />,
     Staking: <PageStaking />,
     Admin: <PaneAdmin />,
-    Tutorial: <PageTutorial />
+    Tutorial: <PageTutorial />,
   });
-
 
   return (
     <Box display="flex" w="100%" height="100vh">
@@ -28,10 +27,12 @@ const Dashboard = () => {
       <Sidebard rute={setPage} />
 
       {/* Contenido principal */}
-      <Box w="100%" p={4} overflowY="auto" marginLeft="10rem">
-        <DashboardMenu />
+      <Box display='flex' justifyContent='center' w="100%" p={4} overflowY="auto" marginLeft="8rem">
+        <Box w='100%' maxW='1600px'>
+          <DashboardMenu />
 
-        {routing[page as string]}
+          {routing[page as string]}
+        </Box>
       </Box>
     </Box>
   );

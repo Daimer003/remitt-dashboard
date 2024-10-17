@@ -5,10 +5,10 @@ import img1 from "@/app/assets/imagen-1.webp";
 import img2 from "@/app/assets/imagen-2.webp";
 import img3 from "@/app/assets/imagen-3.webp";
 import SkeletonLayout from "@/components/skeleton";
-import { useAccount} from "wagmi";
+import { useAccount } from "wagmi";
 import CardBond from "@/components/cards/card-bond";
 import CodeQr from "@/components/codeQr";
-//import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const Home = () => {
   const { isConnected } = useAccount();
@@ -27,6 +27,7 @@ const Home = () => {
             p="10px"
             gap={2}
             borderRadius="16px"
+            position="relative"
           >
             <Text
               as="h4"
@@ -49,6 +50,9 @@ const Home = () => {
               </Text>
             </Box>
 
+            <Box display="flex" w='300px' position="absolute" right='-100px' top='-50px'>
+              <DotLottieReact src="/assets/animation.json" loop autoplay />
+            </Box>
           </Box>
         </SkeletonLayout>
 
@@ -76,11 +80,7 @@ const Home = () => {
           title="Rango 1"
           nivel={["R1", "R2", "R3", "R4"]}
         />
-        <CardBond
-          typeBond="POOL"
-          title="Pool 1"
-          nivel={["P1", "P2", "P3"]}
-        />
+        <CardBond typeBond="POOL" title="Pool 1" nivel={["P1", "P2", "P3"]} />
       </Box>
 
       <Box display="flex" position="relative">

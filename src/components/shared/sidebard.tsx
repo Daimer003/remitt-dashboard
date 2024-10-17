@@ -3,8 +3,7 @@ import { Box, List, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import logo from "../../app/assets/logo-dashboard.webp";
 import { useRouter } from "next/navigation";
-import { useAccount, useDisconnect } from "wagmi";
-
+import { useDisconnect } from "wagmi";
 import {
   IconHome,
   IconSlider,
@@ -15,121 +14,109 @@ import {
   IconExit,
   IconGraph,
 } from "@/utils/icons";
-import { useState } from "react";
+import React, { useState, useCallback } from "react";
+import { removeCookie } from "@/utils/cookie";
 
-interface RuteProps {
+
+// Definición clara de las interfaces y tipos
+interface ILink {
+  id: number;
+  path: string;
+  icon: React.ElementType; // Tipo para componentes como iconos
+}
+
+interface SidebardProps {
+  /**
+   * Función que se ejecuta cuando se selecciona una ruta
+   * @param ruta - La ruta seleccionada por el usuario
+   */
   rute: (ruta: string) => void;
 }
 
-const links = [
-  {
-    id: 1,
-    path: "Home",
-    icon: IconHome,
-  },
-  {
-    id: 2,
-    path: "Staking",
-    icon: IconSlider,
-  },
-  {
-    id: 3,
-    path: "Referrals",
-    icon: IconUser,
-  },
-  {
-    id: 4,
-    path: "Swap",
-    icon: IconCurrency,
-  },
-  {
-    id: 5,
-    path: "Tutorial",
-    icon: IconPlay,
-  },
-  {
-    id: 6,
-    path: "Admin",
-    icon: IconGraph,
-  },
-  {
-    id: 7,
-    path: "Administrations",
-    icon: IconDataBase,
-  },
+const links: readonly ILink[] = [
+  { id: 1, path: "Home", icon: IconHome },
+  { id: 2, path: "Staking", icon: IconSlider },
+  { id: 3, path: "Referrals", icon: IconUser },
+  { id: 4, path: "Swap", icon: IconCurrency },
+  { id: 5, path: "Tutorial", icon: IconPlay },
+  { id: 6, path: "Admin", icon: IconGraph },
+  { id: 7, path: "Administrations", icon: IconDataBase },
 ];
 
-
-
-const Sidebard = ({ rute }: RuteProps) => {
+const Sidebard = ({ rute }: SidebardProps) => {
   const router = useRouter();
   const [active, setActive] = useState<string>("Home");
   const { disconnect } = useDisconnect();
 
-  const disconnectWallet = () => {
-    router.push("/");
-    disconnect();
-  };
+  const handleDisconnectWallet = useCallback(async () => {
+    try {
+      removeCookie() //token
+      await disconnect();
+      router.push("/");
+    } catch (error) {
+      console.error("Error disconnecting wallet:", error);
+    }
+  }, [disconnect, router]);
 
-  const activePath = (path: string) => {
+  const handleActivePath = (path: string) => {
     setActive(path);
     rute(path);
   };
 
   return (
     <Box
-      display="flex"
       as="nav"
+      display="flex"
       justifyContent="center"
-      w="10rem"
-      h="auto"
+      w="8rem"
       color="white"
       p={4}
       position="fixed"
-      padding="20px"
     >
       <VStack
-        display="flex"
         justifyContent="center"
         w="100%"
         maxW="100px"
         spacing={4}
         bg="var(--bg-gradient-sidebard)"
-        padding="10px"
+        p="10px"
         borderRadius="16px"
       >
-        <Box w="60px" h="auto" marginTop="0px">
+        <Box w="60px" h="auto" mt="20px">
           <Image
             src={logo}
-            alt="logo dashboard"
+            alt="Logo Dashboard"
             width={100}
             height={100}
-            style={{
-              width: "100%",
-              height: "auto",
-            }}
+            style={{ width: "100%", height: "auto" }}
             priority
           />
         </Box>
 
-        <List display="flex" flexDir="column" w="100%" gap="30px" marginTop={2}>
-          {links.map((link, key) => (
+        <List display="flex" flexDir="column" w="100%" gap="10px" mt={2}>
+          {links.map((link) => (
             <Box
-              key={key}
               as="li"
+              key={link.id}
               display="flex"
               justifyContent="center"
-              bg={link.path == active ? "#fff" : "#ffffff18"}
+              alignItems="center"
+              bg={link.path === active ? "#fff" : "#ffffff18"}
+              boxShadow={
+                link.path === active ? "inset 0px 3px 6px #00000033" : ""
+              }
               w="100%"
-              h="auto"
-              padding="10px"
-              borderRadius="8px"
+              maxW="100px"
+              h="80px"
+              p="10px"
+              borderRadius="20px"
               cursor="pointer"
-              onClick={() => activePath(link.path)}
+              aria-label={`Navigate to ${link.path}`}
+              onClick={() => handleActivePath(link.path)}
             >
               <link.icon
-                size="30"
-                color={link.path == active ? "#101010" : "#ffffff"}
+                size="35"
+                color={link.path === active ? "#101010" : "#ffffff"}
               />
             </Box>
           ))}
@@ -140,11 +127,13 @@ const Sidebard = ({ rute }: RuteProps) => {
             alignItems="center"
             border="1px solid #fff"
             w="100%"
-            padding="10px"
+            p="10px"
             borderRadius="8px"
-            onClick={() => disconnectWallet()}
+            cursor="pointer"
+            aria-label="Disconnect wallet"
+            onClick={handleDisconnectWallet}
           >
-            <IconExit size="30" color="#ffffff" />
+            <IconExit size="35" color="#ffffff" />
           </Box>
         </List>
       </VStack>
@@ -152,4 +141,4 @@ const Sidebard = ({ rute }: RuteProps) => {
   );
 };
 
-export default Sidebard;
+export default React.memo(Sidebard);
