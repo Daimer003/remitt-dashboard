@@ -4,16 +4,20 @@ import { useEffect, useState } from "react";
 
 interface Props  {
   children: any;
-  borderRadius: string
+  borderRadius: string,
+  isLoading?: boolean
 };
 
-const SkeletonLayout = ({ children, borderRadius }: Props) => {
+const SkeletonLayout = ({ children, borderRadius, isLoading }: Props) => {
   const [loading, setLoading] = useState<boolean>(false);
+
   useEffect(() => {
     setTimeout(() => {
       setLoading(true);
     }, 1000);
-  }, []);
+    
+    if(isLoading) setLoading(false)
+  }, [isLoading]);
 
   return (
     <Skeleton

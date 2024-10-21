@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import AuthMenu from "@/components/shared/auth-menu";
 import Connect from "@/components/shared/connect";
 import {
@@ -7,19 +7,24 @@ import {
   AspectRatio,
   Text,
   CircularProgress,
+  Spinner,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import imgSocial from "@/app/assets/social.webp";
+import { useAccount } from "wagmi";
+import Loading from "@/components/loading";
 
 //Video
 const video =
   "https://firebasestorage.googleapis.com/v0/b/remitt-5fd4c.appspot.com/o/VIDEOS%2FRemitt%20%20Esp%20FHD%20Final.mp4?alt=media&token=f47817ef-d97d-47d1-a164-9a008d13038f";
 
 const Auth = () => {
-
+  const { isConnected } = useAccount();
   return (
     <Flex flexDir="column" alignItems="center">
       <AuthMenu />
+
+      {isConnected && <Loading />}
 
       <Box
         display="flex"
@@ -48,7 +53,7 @@ const Auth = () => {
             <Box
               as="video"
               controls
-             // autoPlay
+              // autoPlay
               borderRadius="20px"
               border="2px solid  var(--border-color-1)" // Agregamos el borde de color rojo
               src={video}

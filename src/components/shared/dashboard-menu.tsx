@@ -1,7 +1,11 @@
 import { Box, Button, Switch, Text } from "@chakra-ui/react";
 import SkeletonLayout from "../skeleton";
+import { useAccount } from "wagmi";
 
 const DashboardMenu = () => {
+  const { address } = useAccount();
+
+
   return (
     <SkeletonLayout borderRadius="16px">
       <Box
@@ -30,7 +34,7 @@ const DashboardMenu = () => {
             Dashboard
           </Button>
 
-          <Box display='flex' position='relative' zIndex={0} bg='gray.300'>
+          <Box display="flex" position="relative" zIndex={0} bg="gray.300">
             <Switch />
           </Box>
 
@@ -98,7 +102,7 @@ const DashboardMenu = () => {
             bg="var(--bg-color-1)"
           >
             <Text as="span" color="black">
-              0xBF7eAdDOx65...
+              {address?.substring(0, 8)}...
             </Text>
           </Box>
 

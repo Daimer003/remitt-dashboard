@@ -28,7 +28,7 @@ const Dashboard = () => {
 
       {/* Contenido principal */}
       <Box display='flex' justifyContent='center' w="100%" p={4} overflowY="auto" marginLeft="8rem">
-        <Box w='100%' maxW='1600px'>
+        <Box w='100%' maxW='1600px' >
           <DashboardMenu />
 
           {routing[page as string]}

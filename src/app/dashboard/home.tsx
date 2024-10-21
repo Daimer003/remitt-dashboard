@@ -9,9 +9,12 @@ import { useAccount } from "wagmi";
 import CardBond from "@/components/cards/card-bond";
 import CodeQr from "@/components/codeQr";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+import { useAuth } from "@/context/authContext";
+import { useEffect } from "react";
 
 const Home = () => {
   const { isConnected } = useAccount();
+  const { userData, token, logout } = useAuth();
 
   return (
     <Box display="flex" flexDir="column" gap="20px" w="100%" marginTop={14}>
@@ -50,7 +53,13 @@ const Home = () => {
               </Text>
             </Box>
 
-            <Box display="flex" w='300px' position="absolute" right='-100px' top='-50px'>
+            <Box
+              display="flex"
+              w="300px"
+              position="absolute"
+              right="-100px"
+              top="-50px"
+            >
               <DotLottieReact src="/assets/animation.json" loop autoplay />
             </Box>
           </Box>
@@ -83,7 +92,7 @@ const Home = () => {
         <CardBond typeBond="POOL" title="Pool 1" nivel={["P1", "P2", "P3"]} />
       </Box>
 
-      <Box display="flex" position="relative">
+      <Box display="flex" position="relative" marginBottom={6}>
         <CodeQr />
       </Box>
     </Box>

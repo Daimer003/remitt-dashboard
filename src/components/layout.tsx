@@ -6,7 +6,7 @@ interface Prop {
 
 const Layout = ({ children }: Prop) => {
   return (
-    <Flex width="100%" className="gradient"> 
+    <Flex width="100%"> 
       <Box
         display="flex"
         width="100%"

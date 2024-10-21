@@ -4,11 +4,12 @@
   --bg-table: #EDEDED;
 
   --border-color-1: #01DBE7;
-  --bg-gradient-sidebard: linear-gradient(177deg, rgba(25, 95, 180, 1) 0%, rgba(29, 235, 243, 1) 95%);
+  --bg-gradient-sidebard: transparent linear-gradient(180deg, #2E90F5 0%, #4C90ED 72%, #5FC8D2 100%) 0% 0% no-repeat padding-box;
   --bg-gradient-box-1: linear-gradient(90deg, rgba(99,26,189,1) 0%, rgba(172,134,255,1) 95%);
   --bg-gradient-box-2: linear-gradient(90deg, rgba(23,117,222,1) 0%, rgba(99,249,253,1) 95%);
   --bg-gradient-box-3:  linear-gradient(90deg, rgba(99,26,189,1) 0%, rgba(172,134,255,1) 95%);
   --bg-gradient-box-4:  rgba(23,117,222,1);
+  --bg-loading: #dedede;
 
   --bg-color-sideboard: #D3D3D4;
 
@@ -76,7 +77,4 @@ a {
   z-index: 0;
 }
 
-.line-separator :before{
-
-}
 

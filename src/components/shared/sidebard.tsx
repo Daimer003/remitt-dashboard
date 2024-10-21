@@ -2,8 +2,6 @@
 import { Box, List, VStack } from "@chakra-ui/react";
 import Image from "next/image";
 import logo from "../../app/assets/logo-dashboard.webp";
-import { useRouter } from "next/navigation";
-import { useDisconnect } from "wagmi";
 import {
   IconHome,
   IconSlider,
@@ -14,8 +12,9 @@ import {
   IconExit,
   IconGraph,
 } from "@/utils/icons";
-import React, { useState, useCallback } from "react";
-import { removeCookie } from "@/utils/cookie";
+import React, { useState } from "react";
+import { useAuth } from "@/context/authContext";
+import { useDisconnect } from "wagmi";
 
 
 // Definición clara de las interfaces y tipos
@@ -44,19 +43,14 @@ const links: readonly ILink[] = [
 ];
 
 const Sidebard = ({ rute }: SidebardProps) => {
-  const router = useRouter();
   const [active, setActive] = useState<string>("Home");
+  const { logout, token } = useAuth();
   const { disconnect } = useDisconnect();
 
-  const handleDisconnectWallet = useCallback(async () => {
-    try {
-      removeCookie() //token
-      await disconnect();
-      router.push("/");
-    } catch (error) {
-      console.error("Error disconnecting wallet:", error);
-    }
-  }, [disconnect, router]);
+ const initDisconnect = () =>{
+  disconnect()
+  if(token) logout(token)
+ }
 
   const handleActivePath = (path: string) => {
     setActive(path);
@@ -131,7 +125,7 @@ const Sidebard = ({ rute }: SidebardProps) => {
             borderRadius="8px"
             cursor="pointer"
             aria-label="Disconnect wallet"
-            onClick={handleDisconnectWallet}
+            onClick={initDisconnect}
           >
             <IconExit size="35" color="#ffffff" />
           </Box>
