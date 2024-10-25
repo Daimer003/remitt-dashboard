@@ -7,7 +7,6 @@ import {
   AspectRatio,
   Text,
   CircularProgress,
-  Spinner,
 } from "@chakra-ui/react";
 import Image from "next/image";
 import imgSocial from "@/app/assets/social.webp";
@@ -20,6 +19,8 @@ const video =
 
 const Auth = () => {
   const { isConnected } = useAccount();
+
+  
   return (
     <Flex flexDir="column" alignItems="center">
       <AuthMenu />

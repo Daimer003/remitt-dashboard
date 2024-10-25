@@ -8,7 +8,7 @@ const Loading = () => {
       alignItems="center"
       width="100%"
       height="100vh"
-      zIndex={99}
+      zIndex={10}
       bg="var(--bg-loading)"
       top={0}
       left={0}

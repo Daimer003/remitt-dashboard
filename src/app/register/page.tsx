@@ -2,34 +2,33 @@
 
 import Layout from "@/components/layout";
 import { useAuth } from "@/context/authContext";
-import { ServiceAuth } from "@/services/auth.service";
 import { Box, Button, FormControl, Input, Text } from "@chakra-ui/react";
-import { useState } from "react";
+import { useWeb3Modal } from "@web3modal/wagmi/react";
+import { useState, useCallback } from "react";
 import { useAccount } from "wagmi";
 
 const Register = () => {
-  const { isConnected, address } = useAccount();
-const { register } = useAuth()
-  const [dataRegister, setDataRegister] = useState<any>({
-    username: "",
-    wallet: "",
-    sponsor_id: null,
-  });
+  const { address } = useAccount();
+  const { open } = useWeb3Modal();
+  const { register } = useAuth();
 
-  const sendRegister = async () => {
-   register(dataRegister)
-   console.log('Es hora del registro', address)
-    //const response = await ServiceAuth.registerUser(dataRegister);
-  };
+  const [formValues, setFormValues] = useState({ username: "", sponsor_id: "" });
 
-  const handleFormSubmit = (event: any) => {
+  const handleInputChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
+  }, []);
 
-    setDataRegister({
-      ...dataRegister,
-      [name]: value,
-    });
-  };
+  const handleRegister = useCallback(async () => {
+    if (!address) return open();
+
+    const { username, sponsor_id } = formValues;
+    if (username && sponsor_id) {
+      await register({ username, sponsor_id });
+    }
+  }, [address, formValues, open, register]);
+
+
 
   return (
     <Layout>
@@ -49,6 +48,7 @@ const { register } = useAuth()
           maxW="600px"
           bg="rgba(255, 255, 255, 0.61)"
           borderRadius="20px"
+          p={6}
         >
           <Box
             display="flex"
@@ -56,58 +56,42 @@ const { register } = useAuth()
             justifyContent="center"
             alignItems="center"
             w="100%"
-            gap={6}
-            p={4}
-            margin="20px 0"
+            gap={4}
             bg="#25253c41"
+            p={6}
+            borderRadius="20px"
           >
-            <Box>
-              <Text
-                as="h2"
-                color="white"
-                fontWeight="600"
-                fontSize="xl"
-                textAlign="center"
-              >
-                Register
-              </Text>
-              <Text
-                as="p"
-                color="white"
-                fontWeight="300"
-                fontSize="lg"
-                textAlign="center"
-              >
-                To register you must enter what will be your user code.
-              </Text>
-            </Box>
+            <Text as="h2" color="white" fontWeight="600" fontSize="xl" textAlign="center">
+              Register
+            </Text>
+            <Text as="p" color="white" fontWeight="300" fontSize="lg" textAlign="center">
+              To register, please enter your user code and referred code.
+            </Text>
 
-            <Box w="100%">
-              <FormControl display="flex" flexDir="column" gap={3}>
-                <Input
-                  onChange={handleFormSubmit}
-                  name="username"
-                  placeholder="User code"
-                  bg="rgba(255, 255, 255, .1)"
-                  borderRadius="50px"
-                  textAlign="center"
-                />
-                <Input
-                  onChange={handleFormSubmit}
-                  name="sponsor_id"
-                  placeholder="Referred code"
-                  bg="rgba(255, 255, 255, .1)"
-                  borderRadius="50px"
-                  textAlign="center"
-                />
-              </FormControl>
-            </Box>
+            <FormControl display="flex" flexDir="column" gap={4} w="100%">
+              <Input
+                name="username"
+                placeholder="User code"
+                bg="rgba(255, 255, 255, .1)"
+                borderRadius="50px"
+                textAlign="center"
+                value={formValues.username}
+                onChange={handleInputChange}
+              />
+              <Input
+                name="sponsor_id"
+                placeholder="Referred code"
+                bg="rgba(255, 255, 255, .1)"
+                borderRadius="50px"
+                textAlign="center"
+                value={formValues.sponsor_id}
+                onChange={handleInputChange}
+              />
+            </FormControl>
 
-            <Box w="100%" maxW="300px">
-              <Button w="100%" variant="buttonPrimary" onClick={sendRegister}>
-                Regiser
-              </Button>
-            </Box>
+            <Button w="100%" maxW="300px" variant="buttonPrimary" onClick={handleRegister}>
+              Register
+            </Button>
           </Box>
         </Box>
       </Box>

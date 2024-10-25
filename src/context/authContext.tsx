@@ -1,112 +1,115 @@
 "use client";
 // context/AuthContext.ts
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import Cookie from "js-cookie";
 import { ServiceAuth } from "@/services/auth.service";
 import { useRouter } from "next/navigation";
-import { useAccount, useAccountEffect } from "wagmi";
+import { useAccount } from "wagmi";
 
 interface UserData {
-  id: string; // ID del usuario
-  name: string; // Nombre del usuario
-  email: string; // Correo del usuario
-  // Agrega más campos según lo necesites
+  id: string;
+  name: string;
+  email: string;
 }
 
 interface AuthContextType {
   userData: UserData | null;
   token: string | null;
-  login: (wallet: string) => void;
-  logout: (tokenUser: string) => void;
-  register: (data: any) => void;
+  login: (wallet: string) => Promise<void>;
+  logout: (tokenUser: string) => Promise<void>;
+  register: (data: any) => Promise<void>;
   getCookie: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [token, setToken] = useState<string | null>(null);
-  const navigation = useRouter();
-  const { isConnected } = useAccount();
-
-  const login = async (wallet: any) => {
-    try {
-      const response = await ServiceAuth.getAuth(wallet);
-
-      setToken(response.data.token);
-      setUserData(userData);
-      Cookie.set("authToken", response.data.token, { expires: 7 });
-      Cookie.set("userData", JSON.stringify(userData), { expires: 7 });
-
-      navigation.push("/dashboard");
-    } catch (error) {
-      console.log("No se lograr hacer login, ( AUTHCONTEXT )", error);
-      navigation.push("/register");
-    }
-  };
-
-  const logout = async (tokenUser: string) => {
-    setToken(null);
-    setUserData(null);
-    Cookie.remove("authToken");
-    Cookie.remove("userData");
-
-    //Elimina la autenticación en el backend
-    await ServiceAuth.logaut(tokenUser); 
-    localStorage.clear();
-    navigation.push("/");
-  };
-
-  const register = async (data: any) => {
-    const response = await ServiceAuth.registerUser(data);
-    console.log(response);
-  };
-
-  useAccountEffect({
-    onConnect(data) {
-      console.log("Connected!", data);
-      login(data.address);
-    },
-    onDisconnect() {
-      console.log("Disconnected!");
-    },
-  });
+  const router = useRouter();
+  const { isConnected, address } = useAccount();
 
   const getCookie = () => {
     const storedToken = Cookie.get("authToken");
     const storedUserData = Cookie.get("userData");
-
+  
     if (storedToken) {
       setToken(storedToken);
     }
-
+  
+    // Solo intenta hacer JSON.parse si storedUserData tiene contenido
     if (storedUserData) {
-      setUserData(JSON.parse(storedUserData) as UserData);
+      try {
+        setUserData(JSON.parse(storedUserData) as UserData);
+      } catch (error) {
+        console.error("Error parsing userData from cookies:", error);
+        Cookie.remove("userData"); // Limpia la cookie si hay error de formato
+      }
+    }
+  };
+
+  const login = async (wallet: string) => {
+    try {
+      const { data } = await ServiceAuth.getAuth(wallet);
+      setToken(data.token);
+      setUserData(data.userData);
+      Cookie.set("authToken", data.token, { expires: 7 });
+      Cookie.set("userData", JSON.stringify(data.userData), { expires: 7 });
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Login failed (AuthContext)", error);
+      router.push("/register");
+    }
+  };
+
+  const logout = async (tokenUser: string) => {
+    try {
+      await ServiceAuth.logaut(tokenUser);
+    } catch (error) {
+      console.error("Logout failed (AuthContext)", error);
+    } finally {
+      setToken(null);
+      setUserData(null);
+      Cookie.remove("authToken");
+      Cookie.remove("userData");
+      router.push("/");
+    }
+  };
+
+  const register = async (data: any) => {
+    try {
+      const response = await ServiceAuth.registerUser(data, address!);
+      console.log("User registered successfully:", response);
+      await login(address!);
+    } catch (error) {
+      console.error("Registration failed (AuthContext)", error);
     }
   };
 
   useEffect(() => {
     getCookie();
-  }, [isConnected]);
+  }, []);
+
+  // Detecta la conexión de la wallet y realiza login o logout en consecuencia
+  useEffect(() => {
+    if (isConnected && address) {
+      login(address); // Inicia sesión al conectar la wallet si no hay token
+    } else if (!isConnected) {
+      logout(token!); // Cierra sesión si se desconecta la wallet
+    }
+  }, [isConnected, address]);
 
   return (
-    <AuthContext.Provider
-      value={{ userData, token, login, logout, register, getCookie }}
-    >
+    <AuthContext.Provider value={{ userData, token, login, logout, register, getCookie }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// Hook para usar el contexto
+// Hook para acceder al contexto
 export const useAuth = (): AuthContextType => {
   const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error("useAuth debe ser usado dentro de un AuthProvider");
-  }
+  if (!context) throw new Error("useAuth must be used within an AuthProvider");
   return context;
 };

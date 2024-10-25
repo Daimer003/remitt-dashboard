@@ -39,7 +39,7 @@ export class ServiceAuth {
             //console.log('Respuesta de logout', response.data);
             return response.data;
         } catch (error) {
-            console.error('Error del logout:');
+            console.error('Error del logout:', error);
             throw error;
         }
     }
@@ -50,14 +50,14 @@ export class ServiceAuth {
      * @param data 
      * @returns 
      */
-    static async registerUser(data: any) {
+    static async registerUser(data: any, wallet: any) {
 
-        const { username, wallet, sponsor_id } = data
+        const { username, sponsor_id } = data
 
         try {
             const response = await axios.post(`${url}/api/${version}/auth/register`, {
                 username: username,
-                wallet: "0x627F673E31663cee9Fe2E6d878544E094F55EEBA",
+                wallet: wallet,
                 sponsor_id: sponsor_id
             });
 

@@ -6,7 +6,7 @@ import { headers } from "next/headers";
 import { cookieToInitialState } from "wagmi";
 import { config } from "@/config/config";
 import Web3ModalProvider from "@/context/context-wagmi";
-import { AuthProvider } from "@/context/authContext";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,12 +36,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Web3ModalProvider initialState={initialState}>
-          <AuthProvider>
+        
             <Providers>
-          
               {children}
             </Providers>
-          </AuthProvider>
+        
         </Web3ModalProvider>
       </body>
     </html>

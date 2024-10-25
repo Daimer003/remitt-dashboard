@@ -15,6 +15,7 @@ const AuthMenu = () => {
       padding="10px"
       gap="10px"
       position="relative"
+      zIndex={20}
     >
       <Box>
         <Image

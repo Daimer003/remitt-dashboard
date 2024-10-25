@@ -5,16 +5,12 @@ import img1 from "@/app/assets/imagen-1.webp";
 import img2 from "@/app/assets/imagen-2.webp";
 import img3 from "@/app/assets/imagen-3.webp";
 import SkeletonLayout from "@/components/skeleton";
-import { useAccount } from "wagmi";
 import CardBond from "@/components/cards/card-bond";
 import CodeQr from "@/components/codeQr";
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
-import { useAuth } from "@/context/authContext";
-import { useEffect } from "react";
 
 const Home = () => {
-  const { isConnected } = useAccount();
-  const { userData, token, logout } = useAuth();
+
 
   return (
     <Box display="flex" flexDir="column" gap="20px" w="100%" marginTop={14}>
