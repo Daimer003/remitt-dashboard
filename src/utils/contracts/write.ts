@@ -1,88 +1,92 @@
-import { writeContract } from '@wagmi/core'
-import { abi } from '@/abi/Swap.json'
-import ERC20_ABI from "@/abi/erc20.abi.json";
+import { writeContract, getAccount } from '@wagmi/core'
+import { abi as swapAbi } from '@/abi/Swap.json'
+import ERC20_ABI from "@/abi/erc20.abi.json"
 import { config } from '@/config/config'
 import { parseGwei } from 'viem'
-import { ServicesSwap } from '@/services/swap.service';
+import { ServicesSwap } from '@/services/swap.service'
 
-
-export const comvert = async (currency: string, value: any, token: any, tokenMitt: string) => {
-    if (currency == 'BNB' || currency == 'USTD') {
-        if (token) {
-            const response = await ServicesSwap.convertSwap(
-                currency,
-                value,
-                tokenMitt,
-                token
-            );
-            return response.data
-        }
-
+// Función para asegurar que las direcciones tienen el prefijo '0x'
+const validateAddress = (address: string): `0x${string}` => {
+    if (!address.startsWith("0x")) {
+        throw new Error(`La dirección ${address} no es válida, debe comenzar con '0x'`)
     }
+    return address as `0x${string}`
+}
 
-    if (tokenMitt) {
-        if (token) {
-            const response = await ServicesSwap.convertSwap(
-                tokenMitt,
-                value,
-                currency,
-                token
-            );
-            return response.data
-        }
+// Validación de direcciones al inicio
+const contractAddress = validateAddress(process.env.NEXT_PUBLIC_REMITT_CONTRACT as string)
+const tokenDcorpAddress = validateAddress(process.env.NEXT_PUBLIC_REMITT_TOKEN_DCORP as string)
+//const spenderAddress = validateAddress(process.env.NEXT_PUBLIC_REMITT_SPENDER as string)
+
+/**
+ * Converts currency and token values for swapping.
+ */
+export const convert = async (currency: string, value: any, token: any, tokenMitt: string) => {
+    if ((currency === 'BNB' || currency === 'USTD') && token) {
+        return (await ServicesSwap.convertSwap(currency, value, tokenMitt, token)).data
+    } else if (tokenMitt && token) {
+        return (await ServicesSwap.convertSwap(tokenMitt, value, currency, token)).data
     }
+}
 
-
-};
-
-const writeContractRemitt = async (value: any, data: any) => {
-
-    const result = await writeContract(config, {
-        abi,
-        address: '0xB86dB108EC28FB6a6Ec21b19587dEda402B960f8',
+/**
+ * Handles contract write for remittance with specified value and data.
+ */
+export const writeContractRemitt = async (value: string, data: any) => {
+    const resul = await writeContract(config, {
+        abi: swapAbi,
+        address: contractAddress,
         functionName: 'exchange',
         args: [data],
-        value: parseGwei(value)
+        value: parseGwei(String(value))
     })
 
-    console.log(result)
+    return resul
 }
 
+/**
+ * Approves and swaps USDT using the specified parameters.
+ */
 export const swapRemittUsdt = async (calculated: any, sendValue: any, token: any) => {
     try {
-        const { data } = await ServicesSwap.signatureSwap(1, sendValue, calculated, token)
+        const account = getAccount(config);
+        const { data } = await ServicesSwap.signatureSwap(1, sendValue, calculated, token);
 
-        const response = await writeContract(config, {
-            address: '0x4866D7d53d20006D4B9b4135c4d31983d2E4c808',
-            abi: ERC20_ABI, // Asegúrate de que este ABI tenga la definición de approve
+        // Ejecuta la aprobación y espera el hash de aprobación
+      const hashApprove =  await writeContract(config, {
+            address: tokenDcorpAddress,
+            abi: ERC20_ABI,
             functionName: 'approve',
-            args: [
-                '0xB86dB108EC28FB6a6Ec21b19587dEda402B960f8', // Dirección del spender
-                parseGwei(String(calculated)), // Cantidad en wei
-            ],
-            account: '0x627F673E31663cee9Fe2E6d878544E094F55EEBA',
+            args: [contractAddress, parseGwei(String(calculated))],
+            account: account.address,
         });
 
-        console.log('Transaction response:', response);
-        writeContractRemitt(String(calculated), data)
+        return { valueCalculate: calculated, data: data, hashApprove: hashApprove }
+
     } catch (error) {
-        console.error('Error approving token:', error);
+        console.error("Error approving or swapping token:", error);
+        throw new Error("Error processing USDT swap");
     }
-}
+};
 
-//const amountToTransfer = BigInt("00006729475100942128");
+/**
+ * Swaps BNB using the specified parameters.
+ */
 export const swapRemittBnb = async (calculated: any, sendValue: any, token: any) => {
-    const { data } = await ServicesSwap.signatureSwap(2, sendValue, calculated, token)
+    try {
+        const { data } = await ServicesSwap.signatureSwap(2, sendValue, calculated, token)
 
-    const result = await writeContract(config, {
-        abi,
-        address: '0xB86dB108EC28FB6a6Ec21b19587dEda402B960f8',
-        functionName: 'exchange',
-        args: [
-          data
-        ],
-        value: calculated
-    })
+        const result = await writeContract(config, {
+            abi: swapAbi,
+            address: contractAddress,
+            functionName: 'exchange',
+            args: [data],
+            value: calculated
+        })
 
-    console.log(result)
+        console.log("BNB Swap Result:", result)
+    } catch (error) {
+        console.error("Error processing BNB swap:", error)
+        throw new Error("Error processing BNB swap")
+    }
 }

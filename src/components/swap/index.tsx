@@ -1,21 +1,37 @@
 import { IconArrowDow } from "@/utils/icons";
-import { Box, Button, Input, Text, Select } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Input,
+  Text,
+  Select,
+  useDisclosure,
+} from "@chakra-ui/react";
 import Image from "next/image";
 import iconBnb from "@/app/assets/bnb.png";
 import iconMit from "@/app/assets/mit.png";
-import { swapRemittUsdt, comvert, swapRemittBnb } from "@/utils/contracts/write";
+import {
+  swapRemittUsdt,
+  convert,
+  swapRemittBnb,
+  writeContractRemitt,
+} from "@/utils/contracts/write";
 import { useAuth } from "@/context/authContext";
 import { useState, useCallback } from "react";
 import debounce from "debounce";
+import { BasicUsage } from "../modal";
+
+const tokenRemitt = "MITT";
 
 const Swap = () => {
   const { token } = useAuth();
-
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [selectCurrency, setSelectCurrency] = useState<string>("BNB");
   const [value, setValue] = useState<string>("0");
   const [amountMitt, setAmountMitt] = useState<string>("0");
   const [focus, setFocus] = useState<boolean>(true); // true para valueCurrency, false para mitt
   const [isFirstChange, setIsFirstChange] = useState(true);
+  const [transactionProgress, setTransactionProgress] = useState<any>({});
 
   // Implementación del debounce
   const convertGeneralDebounced = useCallback(
@@ -23,22 +39,21 @@ const Swap = () => {
       if (!amount || isNaN(amount)) return;
 
       if (name === "valueCurrency" && focus) {
-        const responseCurrency = await comvert(
-          "MITT",
+        const responseCurrency = await convert(
+          tokenRemitt,
           amount,
           token,
           selectCurrency
         );
-        console.log('CURRENCY',responseCurrency.toString())
         setAmountMitt(responseCurrency.toString());
       }
 
       if (name === "mitt" && !focus) {
-        const responseMitt = await comvert(
+        const responseMitt = await convert(
           selectCurrency,
           amount,
           token,
-          "MITT"
+          tokenRemitt
         );
         setValue(responseMitt.toString());
       }
@@ -46,6 +61,7 @@ const Swap = () => {
     [selectCurrency, token, focus]
   );
 
+  //Obtiene los valores de los inputs
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
@@ -76,6 +92,7 @@ const Swap = () => {
     }
   };
 
+  //Obtenemos el currency
   const handleOnChangeCurrency = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
@@ -84,26 +101,46 @@ const Swap = () => {
     setSelectCurrency(event.target.value);
   };
 
+  //Iniciamos la transaccion
   const initialWriteContact = async () => {
-    let currencyAmount, calculatedAmount;
+    setTransactionProgress({ hashApprove: null });
+    try {
+      let currencyAmount, calculatedAmount;
 
-    if (focus) {
-      // Si estamos tiendo en valueCurrency, este será el amount
-      currencyAmount = parseFloat(value);
-      calculatedAmount = parseFloat(amountMitt);
-    } else {
-      // Si estamos tiendo en mitt, este será el amount
-      currencyAmount = parseFloat(value);
-      calculatedAmount = parseFloat(amountMitt);
+      if (focus) {
+        // Si estamos tiendo en valueCurrency, este será el amount
+        currencyAmount = parseFloat(value);
+        calculatedAmount = parseFloat(amountMitt);
+      } else {
+        // Si estamos tiendo en mitt, este será el amount
+        currencyAmount = parseFloat(value);
+        calculatedAmount = parseFloat(amountMitt);
+      }
+
+      if (selectCurrency == "USDT") {
+        onOpen();
+        const approve = await swapRemittUsdt(
+          currencyAmount,
+          calculatedAmount,
+          token
+        );
+
+        setTransactionProgress(approve);
+
+        const hash = await writeContractRemitt(
+          approve.valueCalculate,
+          approve.data
+        );
+
+        if (hash) onClose();
+      }
+
+      if (selectCurrency == "BNB")
+        await swapRemittBnb(currencyAmount, calculatedAmount, token);
+    } catch (error) {
+      onClose();
+      console.log("FALLO LA TRANSACCIÓN", error);
     }
-
-    // Llamada a la función SwapRemittUsdt con los valores correctos
-
-    if (selectCurrency == "USDT")
-      await swapRemittUsdt(currencyAmount, calculatedAmount, token);
-
-    if (selectCurrency == "BNB")
-      await swapRemittBnb(currencyAmount, calculatedAmount, token);
   };
 
   return (
@@ -179,7 +216,7 @@ const Swap = () => {
             </Box>
 
             <Input
-              type="text"
+              type="number"
               name="valueCurrency"
               onChange={handleOnChange}
               value={value}
@@ -234,6 +271,23 @@ const Swap = () => {
           </Button>
         </Box>
       </Box>
+
+      <BasicUsage onOpen={onOpen} onClose={onClose} isOpen={isOpen}>
+        <Text as="h5"> Transacción en proceso...</Text>
+        <Box display="flex" justifyContent="center" gap={5} padding='30px 0'>
+          <Text
+            as="span"
+            fontSize="2xl"
+            fontWeight='600'
+            color={transactionProgress.hashApprove ? "red" : "white"}
+          >
+            1
+          </Text>
+          <Text as="span" color="white" fontSize="2xl" fontWeight='600'>
+            2
+          </Text>
+        </Box>
+      </BasicUsage>
     </Box>
   );
 };

@@ -1,5 +1,7 @@
 :root {
   --background: #dbdbdb;
+  --background-modal: #1b1c30b8;
+  --background-modal-conetnt: #ffffff;
   --bg-swap: #EDEDED;
   --bg-table: #EDEDED;
 
