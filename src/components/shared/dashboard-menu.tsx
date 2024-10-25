@@ -1,10 +1,10 @@
 import { Box, Button, Switch, Text } from "@chakra-ui/react";
 import SkeletonLayout from "../skeleton";
 import { useAccount } from "wagmi";
+import BalanceWallet from "../balanceWallet";
 
 const DashboardMenu = () => {
   const { address } = useAccount();
-
 
   return (
     <SkeletonLayout borderRadius="16px">
@@ -48,8 +48,9 @@ const DashboardMenu = () => {
             bg="var(--bg-color-sideboard)"
           >
             <Text as="span" color="black">
-              USDT: 1,301
+              USDT:
             </Text>
+            <BalanceWallet balanceUsdt={true} />
           </Box>
           <Box
             display="flex"
@@ -74,8 +75,10 @@ const DashboardMenu = () => {
             bg="var(--bg-color-sideboard)"
           >
             <Text as="span" color="black">
-              BNB: 0.33286
+              {" "}
+              BNB:
             </Text>
+            <BalanceWallet balanceBnb={true} />
           </Box>
           <Box
             display="flex"

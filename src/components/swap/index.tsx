@@ -20,6 +20,7 @@ import { useAuth } from "@/context/authContext";
 import { useState, useCallback } from "react";
 import debounce from "debounce";
 import { BasicUsage } from "../modal";
+import BalanceWallet from "../balanceWallet";
 
 const tokenRemitt = "MITT";
 
@@ -32,6 +33,7 @@ const Swap = () => {
   const [focus, setFocus] = useState<boolean>(true); // true para valueCurrency, false para mitt
   const [isFirstChange, setIsFirstChange] = useState(true);
   const [transactionProgress, setTransactionProgress] = useState<any>({});
+
 
   // Implementación del debounce
   const convertGeneralDebounced = useCallback(
@@ -210,9 +212,8 @@ const Swap = () => {
                   <option value="USDT">USDT</option>
                 </Select>
               </Box>
-              <Text as="span" color="black">
-                Balance: 0.0254051
-              </Text>
+
+             <BalanceWallet balanceBnb={true} />
             </Box>
 
             <Input
@@ -274,16 +275,16 @@ const Swap = () => {
 
       <BasicUsage onOpen={onOpen} onClose={onClose} isOpen={isOpen}>
         <Text as="h5"> Transacción en proceso...</Text>
-        <Box display="flex" justifyContent="center" gap={5} padding='30px 0'>
+        <Box display="flex" justifyContent="center" gap={5} padding="30px 0">
           <Text
             as="span"
             fontSize="2xl"
-            fontWeight='600'
+            fontWeight="600"
             color={transactionProgress.hashApprove ? "red" : "white"}
           >
             1
           </Text>
-          <Text as="span" color="white" fontSize="2xl" fontWeight='600'>
+          <Text as="span" color="white" fontSize="2xl" fontWeight="600">
             2
           </Text>
         </Box>

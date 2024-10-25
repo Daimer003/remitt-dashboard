@@ -1,14 +1,24 @@
 import CardStaking from "@/components/cards/card-staking";
 import TableData from "@/components/table";
-import { Box } from "@chakra-ui/react";
+import { useAuth } from "@/context/authContext";
+import { useStakingPackages } from "@/hooks/useStakingPackages";
+import { Box, Text, Spinner } from "@chakra-ui/react";
 
 const PageStaking = () => {
+  const { token } = useAuth();
+  const { data: packages, isLoading, error } = useStakingPackages(token);
+
+  if (isLoading) return <Spinner color="blue.500" />;
+  if (error) return <Text color="red.500">Error loading staking packages</Text>;
+
+
   return (
     <Box display="flex" flexDir="column" gap="20px" w="100%" marginTop={8}>
       <Box display="flex" w="100%" gap={10} marginTop={4}>
-        <CardStaking />
-        <CardStaking />
-        <CardStaking />
+        {packages?.data.data.map((pkg: any, index: number) => (
+        <CardStaking key={index} data={pkg} />
+        ))}
+
       </Box>
 
       <Box display="flex" position="relative">

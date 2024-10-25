@@ -5,6 +5,7 @@ import { config } from '@/config/config'
 import { parseGwei } from 'viem'
 import { ServicesSwap } from '@/services/swap.service'
 
+const account = getAccount(config);
 // Función para asegurar que las direcciones tienen el prefijo '0x'
 const validateAddress = (address: string): `0x${string}` => {
     if (!address.startsWith("0x")) {
@@ -49,11 +50,11 @@ export const writeContractRemitt = async (value: string, data: any) => {
  */
 export const swapRemittUsdt = async (calculated: any, sendValue: any, token: any) => {
     try {
-        const account = getAccount(config);
+
         const { data } = await ServicesSwap.signatureSwap(1, sendValue, calculated, token);
 
         // Ejecuta la aprobación y espera el hash de aprobación
-      const hashApprove =  await writeContract(config, {
+        const hashApprove = await writeContract(config, {
             address: tokenDcorpAddress,
             abi: ERC20_ABI,
             functionName: 'approve',
@@ -90,3 +91,4 @@ export const swapRemittBnb = async (calculated: any, sendValue: any, token: any)
         throw new Error("Error processing BNB swap")
     }
 }
+

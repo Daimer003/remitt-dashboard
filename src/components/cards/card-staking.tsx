@@ -3,12 +3,12 @@ import Image from "next/image";
 import imgRow2 from "@/app/assets/row2.webp";
 import iconMetamask from "@/app/assets/metamask.webp";
 
-interface Props {
-  nivel?: any;
-  title?: string;
-}
+type PropDataPackage = {
+  data: any;
+};
 
-const CardStaking = ({ nivel, title }: Props) => {
+const CardStaking = ({ data }: PropDataPackage) => {
+  console.log("DATOS DEL PAQUETE", data);
   return (
     <Box display="flex" gap="30px" w="100%" maxW="500px">
       <Box
@@ -55,13 +55,13 @@ const CardStaking = ({ nivel, title }: Props) => {
 
         <Box display="flex" flexDir="column" gap={3} padding={3}>
           <Text
-            display={title ? "flex" : "none"}
+            display="flex"
             justifyContent="center"
             as="h4"
             color="black"
             fontWeight="800"
           >
-            {title}
+            Titulo
           </Text>
 
           <Box display="flex" flexDir="column" gap={3}>
@@ -113,12 +113,18 @@ const CardStaking = ({ nivel, title }: Props) => {
                   justifyContent="space-between"
                   marginTop={4}
                 >
-                <Box display='flex' alignItems='center'>
-                <Image src={iconMetamask} alt="Icono de metamask" width={30} height={30} />
-                  <Text as="span" color="black" marginLeft={2}>
-                    Add Metamask
-                  </Text>˝
-                </Box>
+                  <Box display="flex" alignItems="center">
+                    <Image
+                      src={iconMetamask}
+                      alt="Icono de metamask"
+                      width={30}
+                      height={30}
+                    />
+                    <Text as="span" color="black" marginLeft={2}>
+                      Add Metamask
+                    </Text>
+                    ˝
+                  </Box>
                   <Button
                     w="100%"
                     maxW="150px"
