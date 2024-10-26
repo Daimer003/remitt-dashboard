@@ -2,6 +2,7 @@ import { Box, Button, Text, Divider } from "@chakra-ui/react";
 import Image from "next/image";
 import imgRow2 from "@/app/assets/row2.webp";
 import iconMetamask from "@/app/assets/metamask.webp";
+import { stakingRemitt, writeStakingRemitt } from "@/utils/contracts/write";
 
 type PropDataPackage = {
   data: any;
@@ -9,6 +10,15 @@ type PropDataPackage = {
 
 const CardStaking = ({ data }: PropDataPackage) => {
   console.log("DATOS DEL PAQUETE", data);
+
+const staking = async () => {
+  const approveStaking = await stakingRemitt(1)
+  console.log('STAKING APPROVE',approveStaking)
+  const stakingHash = await writeStakingRemitt(1)
+  console.log('Hash',stakingHash)
+}
+
+
   return (
     <Box display="flex" gap="30px" w="100%" maxW="500px">
       <Box
@@ -153,7 +163,7 @@ const CardStaking = ({ data }: PropDataPackage) => {
           </Box>
 
           <Box display="flex" w="100%" marginTop={4}>
-            <Button w="100%" variant="button">
+            <Button w="100%" variant="button" onClick={staking}>
               Stake
             </Button>
           </Box>

@@ -2,6 +2,11 @@ import { useQuery } from "@tanstack/react-query";
 import { ServicesStaking } from "@/services/staking.service";
 import { AxiosResponse } from "axios";
 
+/**
+ * Obtiene los paquetes
+ * @param token 
+ * @returns 
+ */
 export const useStakingPackages = (token: any) => {
   return useQuery<AxiosResponse<any> | undefined, Error>({
     queryKey: ["stakingPackages", token],
