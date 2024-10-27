@@ -14,7 +14,7 @@ const Boxdashboard = ({ description, background, img }: Props) => {
       display="flex"
       alignItems="center"
       w="100%"
-      maxW="300px"
+      maxW="350px"
       maxH="100px"
       bg={background}
       gap="10px"

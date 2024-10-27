@@ -44,7 +44,7 @@ const BalanceWallet = ({ balanceBnb, balanceUsdt }: PropsBalance) => {
 
   if (balanceBnb) {
     return (
-      <Box>
+      <Box w='100%'>
         <Text as="span" color="black">
           {bnb}
         </Text>
@@ -54,7 +54,7 @@ const BalanceWallet = ({ balanceBnb, balanceUsdt }: PropsBalance) => {
 
   if (balanceUsdt) {
     return (
-      <Box>
+      <Box w='100%'>
         <Text as="span" color="black">
           {usdt}
         </Text>

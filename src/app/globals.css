@@ -1,5 +1,6 @@
 :root {
   --background: #dbdbdb;
+  --background-blue: #2E90F5;
   --background-modal: #1b1c30b8;
   --background-modal-conetnt: #ffffff;
   --bg-swap: #EDEDED;
@@ -19,6 +20,8 @@
   --bg-color-1: #30FB98;
   --bg-color-2: #EDEDED;
 }
+
+
 
 html,
 body {
@@ -77,6 +80,12 @@ a {
   background: var(--border-color-1);
   position: absolute;
   z-index: 0;
+}
+
+@media screen and (max-width: 1024px) {
+  .line-dashboard-menu{
+    display: none;
+  }
 }
 
 

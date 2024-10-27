@@ -60,12 +60,13 @@ const Sidebard = ({ rute }: SidebardProps) => {
   return (
     <Box
       as="nav"
-      display="flex"
+      display={{base: 'none', xl: "flex"}}
       justifyContent="center"
       w="8rem"
       color="white"
       p={4}
       position="fixed"
+      zIndex={999}
     >
       <VStack
         justifyContent="center"

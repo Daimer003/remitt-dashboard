@@ -27,9 +27,9 @@ const Dashboard = () => {
       <Sidebard rute={setPage} />
 
       {/* Contenido principal */}
-      <Box display='flex' justifyContent='center' w="100%" p={4} overflowY="auto" marginLeft="8rem">
+      <Box display='flex' justifyContent='center' w="100%" p={4} overflowY="auto" marginLeft={{base: '0', xl: "8rem"}}>
         <Box w='100%' maxW='1600px' >
-          <DashboardMenu />
+          <DashboardMenu  rute={page} />
 
           {routing[page as string]}
         </Box>

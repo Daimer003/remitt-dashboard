@@ -1,9 +1,8 @@
 
-import { useCallback, useEffect } from "react";
+import { useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { useAccount, useDisconnect } from "wagmi";
 import { useWeb3Modal } from "@web3modal/wagmi/react";
-import { useAuth } from "@/context/authContext";
 
 
 export const useWeb3Connection = () => {
